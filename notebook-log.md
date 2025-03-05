@@ -44,3 +44,45 @@ mafft --auto $INPUT_SEQ > $OUTPUT_ALIGN
 
 # Print completion message
 echo "Alignment complete. Output saved to $OUTPUT_ALIGN"
+
+# Algorithm Description:
+# The Neighbor-Joining (NJ) method constructs a phylogenetic tree by iteratively
+# finding the closest pair of operational taxonomic units (OTUs) and merging them.
+# It minimizes the total branch length, making it computationally efficient.
+#
+# Assumptions:
+# - Sequences evolve under a distance-based model.
+# - The true evolutionary tree is approximately additive.
+#
+# Limitations:
+# - NJ does not model character evolution explicitly.
+# - It can be sensitive to noise and long-branch attraction.
+
+# ---- Parsimony-based tree estimation ----
+# Convert DNA alignment into a phyDat object (needed for parsimony analysis)
+alignment_phyDat <- phyDat(alignment, type = "DNA")
+
+# Generate an initial tree using the NJ method
+init_tree <- nj(dist_matrix)
+
+# Perform parsimony tree search using the Fitch algorithm
+pars_tree <- optim.parsimony(init_tree, alignment_phyDat)
+
+# Plot the Parsimony tree
+plot(pars_tree, main = "Parsimony-based Tree")
+
+# Save the parsimony tree to a file
+write.tree(pars_tree, file = "parsimony_tree.nwk")
+
+# Algorithm Description:
+# The maximum parsimony method finds the tree that requires the fewest evolutionary
+# changes to explain the observed sequences.
+#
+# Assumptions:
+# - Evolution follows the principle of parsimony (minimizing changes).
+# - All changes are equally probable.
+#
+# Limitations:
+# - Can be computationally intensive for large datasets.
+# - Sensitive to long-branch attraction.
+
