@@ -1,7 +1,7 @@
 # Bubo virginianus Phylogenetic Analysis
 
 ## Dataset Overview
-This dataset includes genome-wide nuclear and mitochondrial DNA sequence data from 27 samples of *Bubo virginianus* (Great Horned Owl) across 13 of the 16 recognized subspecies. The primary objective is to assess genetic variation and differentiation across the species' range and explore the species status of *B. v. magellanicus*.
+This dataset includes genome-wide nuclear and mitochondrial DNA sequence data from 27 samples of *Bubo virginianus* (Great Horned Owl) across 13 of the 16 recognized subspecies. 
 https://pmc.ncbi.nlm.nih.gov/articles/PMC10422955/
 
 ### Key Points
@@ -9,14 +9,10 @@ https://pmc.ncbi.nlm.nih.gov/articles/PMC10422955/
 - **Data Type:** Nuclear and mitochondrial DNA sequences
 - **Sampling Locations:** 13 subspecies across North and South America
 
-## Quality Control (QC)
-- Hard filtered SNPs for quality by depth (QD) < 2.0, strand odds ratio (SOR) > 4.0, Fisher strand (FS) > 60.0, and RMS mapping quality (MQ) < 40.0.
-- Then filtered the SNPs again using SNPfiltR (version 1.0.0, DeRaad, 2022) in R (version 4.1.1, R Core Team, 2021) for 90% or greater data completeness by SNP, phred score of 30 or greater and only included biallelic SNPs.
-
 ## Data Collection
-- Specimen tissue collected from sixteen museum collections. Includes 27 samples of Bubo virginianus from across its range.
-- Outgroup species (B. cinerascens, B. nipalensis, and B. scandiacus) sequences were downloaded from the Sequence Read Archive (SRA).
-- UCE libraries were sequenced using Illumina paired-end 150 bp sequencing on a NextSeq550 machine.
+- The dataset is curated from publicly available genomic data and is provided as part of a study focusing on owl species and their evolutionary history.
+- Downloaded sequence data from NCBI.
+- Retrieved mitochondrial DNA and UCE data files in FASTA format for analysis.
 
 ## UCE Sequence Data Processing
 - Used the Phyluce pipeline. Clean reads assembled with Trinity and mapped with Phyluce mapping workflow. Final alignments were done using MAFFT.
