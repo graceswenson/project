@@ -82,3 +82,7 @@ write.tree(pars_tree, file = "parsimony_tree.nwk")
 # - Can be computationally intensive for large datasets.
 # - Sensitive to long-branch attraction.
 
+
+
+https://www.pnas.org/doi/10.1073/pnas.0802315105#supplementary-materials
+
