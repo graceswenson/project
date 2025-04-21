@@ -47,6 +47,23 @@ RAxML-NG and R:
 - Limitations: The quality of the sequence alignment is paramount for constructing an accurate tree. Any errors in the alignment could lead to inaccuracies in the inferred phylogeny. I took care to ensure that the alignment was as accurate as possible, but errors can still occur, especially with large datasets. While I used the GTR+G model, there is always the possibility that a different substitution model could fit the data better. The GTR model is widely used and often produces good results, but it may not always be the optimal choice for every dataset.I also relied on bootstrap values to assess the support for the branches of the tree. However, if the bootstrap values are low, this could indicate that the tree is not well-supported and may not accurately reflect the true evolutionary relationships between the species.
 - Strengths: RAxML-NG: This software is highly efficient for large datasets and produces phylogenetic trees using maximum likelihood estimation, a widely accepted and robust method for tree construction. It also supports bootstrapping, which provides an estimate of branch support. R Visualization: The ape package in R is incredibly versatile for visualizing phylogenetic trees. It allows me to customize the appearance of the tree, add labels, and export high-quality graphics for publication or presentation. This flexibility is essential for conveying my results clearly and accurately.
 
+## Bayesian Inference
+In addition to maximum likelihood analysis, I chose to implement a Bayesian inference approach using MrBayes to construct a phylogenetic tree. Bayesian methods offer an alternative statistical framework for estimating phylogenies and allow for the incorporation of prior probabilities and model parameters in a probabilistic way. This method complements the results from RAxML-NG and provides a deeper understanding of the phylogenetic relationships among woolly mammoth mitochondrial genomes.
 
+Method:
+1. To prepare for MrBayes, I first converted my aligned FASTA file (wolly_mammoth_aligned_final.fasta) into the NEXUS format, which is the required format for MrBayes. I used the seqinr package in R to do this. 
+2. Once I had the .nex file ready, I used the following MrBayes commands in the terminal or within the MrBayes shell:
+mb
+execute wolly_mammoth_aligned_final.nex;
+lset nst=6 rates=gamma;
+prset statefreqpr=dirichlet(1,1,1,1);
+mcmc ngen=1000000 samplefreq=100 printfreq=100 diagnfreq=1000 nchains=4 temp=0.2;
+sump burnin=2500;
+sumt burnin=2500;
+This code runs the MCMC algorithm for 1 million generations, sampling every 100 generations. I then discarded the first 2,500 trees as burn-in and summarized the remaining trees to construct a consensus phylogeny with posterior probabilities.
 
+Assumptions: Bayesian inference requires setting priors for evolutionary parameters. I used non-informative (flat) priors such as a uniform Dirichlet distribution for state frequencies, assuming no prior knowledge about base frequency distribution.  I assumed the MCMC chains converged and mixed well based on log-likelihood plots and diagnostic statistics like the potential scale reduction factor (PSRF) and effective sample size (ESS). I assumed the GTR+G model (nst=6, rates=gamma) was appropriate for my mitochondrial sequence data, as this is widely accepted for DNA sequence evolution.
 
+Strengths: MrBayes provides posterior probabilities for each node, which can be more interpretable than bootstrap values because they directly represent the probability of clades given the model and data. MrBayes allows for complex models of evolution, including mixture models and codon-based models, which could be useful in future studies with more complex datasets.
+
+Limitations: MrBayes is computationally intensive, especially with large datasets or when running very long chains. For this analysis, I needed to allow significant time for convergence. Choosing an appropriate burn-in is crucial. If the chains have not converged, then the posterior estimates may be biased. I visually inspected the likelihood trace and checked convergence diagnostics but this step requires careful interpretation. As with other methods, the results can be sensitive to the chosen substitution model. While I used GTR+G, different models may yield different topologies.
