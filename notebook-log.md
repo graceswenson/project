@@ -23,11 +23,14 @@ ClustalW
 - Source for ClustalW: https://doi.org/10.1093/nar/22.22.4673
 
 ## Phylogenetic Tree Construction
-I constructed the phylogenetic tree of wolly mammoth speciments using RAxML-NG and visualized the tree using R. The process involved obtaining a multiple sequence alignment (MSA) of mitochondrial DNA sequences, constructing the phylogenetic tree using maximum likelihood (ML) estimation, and visualizing the tree for further analysis. For tree construction, I chose to use RAxML-NG because it offers a robust implementation of maximum likelihood estimation. I applied the GTR+G model to infer the best-fit tree, accounting for nucleotide substitution and gamma-distributed rate heterogeneity across sites. Once I had inferred the phylogenetic tree, I used R to visualize it. Specifically, I used the ape package, which is excellent for handling and plotting phylogenetic trees. I read the tree file into R, rooted it with an outgroup, and added labels for nodes and edges to enhance the tree’s clarity.
+### Method 1: Maximum Likelihood Tree Using RAxML-NG
+I constructed a phylogenetic tree of woolly mammoth specimens using RAxML-NG and visualized the tree using R. This approach involved maximum likelihood estimation using the GTR+G model, which accounts for nucleotide substitution and gamma-distributed rate heterogeneity across sites.
 
 Code: 
+RAxML-NG Command:
 ./raxml-ng --check --msa wolly_mammoth_aligned_final.fasta --model GTR+G
 ./raxml-ng --msa wolly_mammoth_aligned_final.fasta --model GTR+G --prefix wolly_mammoth_tree --threads 2 --seed 2
+Tree Visualization in R:
 install.packages("ape")
 library(ape)
 tree <- read.tree("wolly_mammoth_tree.raxml.bestTree")
