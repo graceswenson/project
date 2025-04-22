@@ -11,7 +11,9 @@ I retrieved complete mitochondrial genome sequences for various Siberian woolly 
 
 ## Alignment Process
 To align the complete mitochondrial genomes, I used the multiple sequence alignment tool ClustalW in the terminal with the following command:
+```
 clustalw -ALIGN -INFILE=wolly_mammoth_data_raw.fasta -OUTFILE=wolly_mammoth_aligned_final.fasta -OUTPUT=FASTA
+```
 
 Alignment Score: 2983150
 Output File: wolly_mammoth_aligned_final.fasta
