@@ -23,8 +23,8 @@ ClustalW
 - Source for ClustalW: https://doi.org/10.1093/nar/22.22.4673
 
 ## Phylogenetic Tree Construction
-### Method 1: Maximum Likelihood Tree Using RAxML-NG
-I constructed a phylogenetic tree of woolly mammoth specimens using RAxML-NG and visualized the tree using R. This approach involved maximum likelihood estimation using the GTR+G model, which accounts for nucleotide substitution and gamma-distributed rate heterogeneity across sites. Due to file size and computational limitations, the dataset was split into two parts for analysis.
+### Method 1: Distance Based Tree Using R
+I constructed a phylogenetic tree of woolly mammoth specimens using Neighbor-Joining (NJ) methods in R. This approach involved maximum likelihood estimation using the GTR+G model, which accounts for nucleotide substitution and gamma-distributed rate heterogeneity across sites. Due to file size and computational limitations, the dataset was split into two parts for analysis.
 
 Code: 
 library(ape)                              
