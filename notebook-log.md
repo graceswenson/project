@@ -27,7 +27,22 @@ ClustalW
 I constructed a phylogenetic tree of woolly mammoth specimens using RAxML-NG and visualized the tree using R. This approach involved maximum likelihood estimation using the GTR+G model, which accounts for nucleotide substitution and gamma-distributed rate heterogeneity across sites. Due to file size and computational limitations, the dataset was split into two parts for analysis.
 
 Code: 
-<img width="455" alt="Screenshot 2025-04-22 at 1 14 40 PM" src="https://github.com/user-attachments/assets/d254bf22-9dff-4e91-913e-77ea0ef06a11" />
+library(ape)                              
+part1_dnabin <- as.DNAbin(part1)
+part2_dnabin <- as.DNAbin(part2)
+dist1 <- dist.dna(part1_dnabin, model = "raw")
+dist2 <- dist.dna(part2_dnabin, model = "raw")
+tree1 <- nj(dist1)
+tree2 <- nj(dist2)
+par(mfrow = c(1, 2))
+plot(tree1, main = "Tree from Part 1")
+plot(tree2, main = "Tree from Part 2")
+combined_dnabin <- c(part1_dnabin, part2_dnabin)
+dist_combined <- dist.dna(combined_dnabin, model = "raw")
+tree_combined <- nj(dist_combined)
+plot(tree_combined, main = "Consensus Tree from All Sequences")
+
+
 
 Tree saved as "wolly_mammoth_NJ_tree.pdf"
 
