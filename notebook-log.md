@@ -49,7 +49,7 @@ dist_combined <- dist.dna(combined_dnabin, model = "raw")
 tree_combined <- nj(dist_combined)
 plot(tree_combined, main = "Consensus Tree from All Sequences")
 
-Tree saved as "wolly_mammoth_phylo_tree.nwk"
+Tree saved as "wolly_mammoth_NJ_tree.pdf"
 
 RAxML-NG and R:
 - Assumptions: All input sequences are properly aligned and of mitochondrial origin. NJ method assumes equal evolutionary rates across lineages (no molecular clock). The raw distance model assumes equal mutation weights and does not correct for multiple substitutions.
