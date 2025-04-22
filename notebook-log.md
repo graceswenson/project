@@ -24,31 +24,39 @@ ClustalW
 
 ## Phylogenetic Tree Construction
 ### Method 1: Maximum Likelihood Tree Using RAxML-NG
-I constructed a phylogenetic tree of woolly mammoth specimens using RAxML-NG and visualized the tree using R. This approach involved maximum likelihood estimation using the GTR+G model, which accounts for nucleotide substitution and gamma-distributed rate heterogeneity across sites.
+I constructed a phylogenetic tree of woolly mammoth specimens using RAxML-NG and visualized the tree using R. This approach involved maximum likelihood estimation using the GTR+G model, which accounts for nucleotide substitution and gamma-distributed rate heterogeneity across sites. Due to file size and computational limitations, the dataset was split into two parts for analysis.
 
 Code: 
 RAxML-NG Command:
-./raxml-ng --check --msa wolly_mammoth_aligned_final.fasta --model GTR+G
-./raxml-ng --msa wolly_mammoth_aligned_final.fasta --model GTR+G --prefix wolly_mammoth_tree --threads 2 --seed 2
-Tree Visualization in R:
-install.packages("ape")
+library(Biostrings)
+setwd("~/Desktop/563")  # Set working directory
+fasta <- readDNAStringSet("wolly_mammoth_aligned_final.fasta")
+half <- length(fasta) %/% 2
+part1 <- fasta[1:half]
+part2 <- fasta[(half + 1):length(fasta)]
 library(ape)
-tree <- read.tree("wolly_mammoth_tree.raxml.bestTree")
-plot(tree, main = "Woolly Mammoth Phylogenetic Tree")
-tree_rooted <- root(tree, outgroup = "AB015094.1")
-plot(tree_rooted, main = "Rooted Woolly Mammoth Phylogenetic Tree")
-nodelabels()
-edgelabels()
-pdf("woolly_mammoth_phylogeny.pdf")
-plot(tree_rooted, main = "Rooted Woolly Mammoth Phylogenetic Tree")
-dev.off()
+part1_dnabin <- as.DNAbin(part1)
+part2_dnabin <- as.DNAbin(part2)
+dist1 <- dist.dna(part1_dnabin, model = "raw")
+dist2 <- dist.dna(part2_dnabin, model = "raw")
+tree1 <- nj(dist1)
+tree2 <- nj(dist2)
+par(mfrow = c(1, 2))
+plot(tree1, main = "Tree from Part 1")
+plot(tree2, main = "Tree from Part 2")
+combined_dnabin <- c(part1_dnabin, part2_dnabin)
+dist_combined <- dist.dna(combined_dnabin, model = "raw")
+tree_combined <- nj(dist_combined)
+plot(tree_combined, main = "Consensus Tree from All Sequences")
 
-Tree saved as "woolly_mammoth_phylogeny.pdf"
+Tree saved as "wolly_mammoth_phylo_tree.nwk"
 
 RAxML-NG and R:
-- Assumptions: I assumed that the GTR+G model would be appropriate for this analysis, as it accounts for nucleotide substitutions and gamma-distributed rate heterogeneity across sites. This model is commonly used for mitochondrial DNA sequences. I assumed that the outgroup I selected was suitable for rooting the phylogenetic tree.
-- Limitations: The quality of the sequence alignment is paramount for constructing an accurate tree. Any errors in the alignment could lead to inaccuracies in the inferred phylogeny. I took care to ensure that the alignment was as accurate as possible, but errors can still occur, especially with large datasets. While I used the GTR+G model, there is always the possibility that a different substitution model could fit the data better. The GTR model is widely used and often produces good results, but it may not always be the optimal choice for every dataset.I also relied on bootstrap values to assess the support for the branches of the tree. However, if the bootstrap values are low, this could indicate that the tree is not well-supported and may not accurately reflect the true evolutionary relationships between the species.
-- Strengths: RAxML-NG: This software is highly efficient for large datasets and produces phylogenetic trees using maximum likelihood estimation, a widely accepted and robust method for tree construction. It also supports bootstrapping, which provides an estimate of branch support. R Visualization: The ape package in R is incredibly versatile for visualizing phylogenetic trees. It allows me to customize the appearance of the tree, add labels, and export high-quality graphics for publication or presentation. This flexibility is essential for conveying my results clearly and accurately.
+- Assumptions: All input sequences are properly aligned and of mitochondrial origin. NJ method assumes equal evolutionary rates across lineages (no molecular clock). The raw distance model assumes equal mutation weights and does not correct for multiple substitutions.
+- Limitations: File size (215 KB) made direct computation slow; splitting into parts was necessary. Less accurate than model-based methods (e.g., Maximum Likelihood or Bayesian). If sequence quality or alignment errors are present, trees may reflect noise instead of true evolutionary relationships.
+- Strengths: NJ is computationally inexpensive and appropriate for large alignments. Splitting the dataset allowed analysis to proceed despite memory constraints. Side-by-side trees allow comparison of topology and potential clustering.
+
+## Method 2:
 
 ## Bayesian Inference
 In addition to maximum likelihood analysis, I chose to implement a Bayesian inference approach using MrBayes to construct a phylogenetic tree. Bayesian methods offer an alternative statistical framework for estimating phylogenies and allow for the incorporation of prior probabilities and model parameters in a probabilistic way. This method complements the results from RAxML-NG and provides a deeper understanding of the phylogenetic relationships among woolly mammoth mitochondrial genomes.
