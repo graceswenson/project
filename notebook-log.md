@@ -106,7 +106,7 @@ mb wolly_mammoth_aligned_final.nex
 ```
 Step 3: Now that you have the con.tre file, you can visualize the tree using IcyTree. Open IcyTree then upload the con.tre file.
 
-Tree saved as: "woolly_mammoth_mrbayes.jpeg"
+Tree saved as: "woolly_mammoth_bayesian.jpeg"
 
 Assumptions: Assumes that the evolutionary model you select (e.g., substitution rates, rate variation among sites) accurately reflects the underlying biological processes. Assumes sites in the sequence alignment evolve independently and identically according to the chosen model (though it can accommodate variation with models like Gamma). Assumes that the priors you specify for model parameters are appropriate—poor choices can lead to misleading results.
 Strengths: Uses Markov Chain Monte Carlo (MCMC) to sample from the posterior distribution, providing posterior probabilities for tree topology, branch lengths, and model parameters. Directly estimates uncertainty in tree topology, branch lengths, and model parameters. 
