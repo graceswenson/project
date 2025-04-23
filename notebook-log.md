@@ -51,7 +51,7 @@ Tree saved as "woolly_mammoth_NJ_tree.pdf"
 - Limitations: File size (215 KB) made direct computation slow; splitting into parts was necessary. Less accurate than model-based methods (e.g., Maximum Likelihood or Bayesian). If sequence quality or alignment errors are present, trees may reflect noise instead of true evolutionary relationships.
 - Strengths: NJ is computationally inexpensive and appropriate for large alignments. Splitting the dataset allowed analysis to proceed despite memory constraints. Side-by-side trees allow comparison of topology and potential clustering.
 
-## Method 2: RAxML and R
+### Method 2: RAxML and R
 I constructed a phylogenetic tree of woolly mammoth specimens using RAxML, a tool for maximum likelihood-based phylogenetic analysis. The tree was estimated using the GTR+G model, which accounts for nucleotide substitution and gamma-distributed rate heterogeneity across sites. The analysis was performed on the full dataset of aligned sequences.
 
 RAxML in Terminal:
@@ -73,6 +73,15 @@ Tree saved as: "woolly_mammoth_raxml_tree.pdf"
 - Assumptions: The input sequences are aligned and of mitochondrial origin. The GTR+G model was selected to account for nucleotide substitutions and site-rate heterogeneity. RAxML uses maximum likelihood estimation, which provides accurate tree topologies for large datasets.
 - Limitations: The quality of the alignment is crucial. Any misalignment or sequence errors can affect the results. The RAxML analysis assumes no molecular clock, meaning it does not assume constant rates of evolution across all branches. Computationally intensive for large datasets, but the model offers a good balance of accuracy and computational feasibility.
 - Strengths: RAxML provides robust maximum likelihood trees, widely used for large-scale phylogenetic analysis. The GTR+G model accounts for rate heterogeneity, making it suitable for diverse evolutionary scenarios. Visualizing the tree in R helps assess the quality and topology of the tree and provides a straightforward interpretation.
+
+## Bayesian Inference
+
+## Software and Versions Used
+- R (v4.3.1): Installed from [CRAN](https://cran.r-project.org/)
+- ape package (v5.7-1): Installed via `install.packages("ape")`
+- ClustalW (v2.1): Installed via Homebrew with `brew install clustal-w`
+- RAxML (v8.2.12): Installed via Homebrew with `brew install brewsci/bio/raxml`
+- macOS Ventura 13.4 (M1 Chip)
 
 ## Bayesian Inference
 In addition to maximum likelihood analysis, I chose to implement a Bayesian inference approach using MrBayes to construct a phylogenetic tree. Bayesian methods offer an alternative statistical framework for estimating phylogenies and allow for the incorporation of prior probabilities and model parameters in a probabilistic way. This method complements the results from RAxML-NG and provides a deeper understanding of the phylogenetic relationships among woolly mammoth mitochondrial genomes.
