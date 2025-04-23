@@ -1,22 +1,22 @@
-# Siberian Wolly Mammoth Phylogenetic Analysis
+# Siberian Woolly Mammoth Phylogenetic Analysis
 - Name of Article: Intraspecific phylogenetic analysis of Siberian woolly mammoths using complete mitochondrial genomes
 - DOI:  https://doi.org/10.1073/pnas.0802315105
 - Link to Article: https://www.pnas.org/doi/10.1073/pnas.0802315105#supplementary-materials
 
 ## Species Information
-The Siberian Wolly Mammoth is an extinct species of elephant that roamed parts of the Northern Hemisphere during the Pleistocene epoch. Their remains have been remarkably well-preserved in the permafrost of Siberia, allowing for easier study of their DNA. In this study, mitochondrial DNA (mtDNA) data sets collected from hair shafts will be used to complete a phylogenetic analysis. Samples from thirteen species will be used.
+The Siberian woolly mammoth is an extinct species of elephant that roamed parts of the Northern Hemisphere during the Pleistocene epoch. Their remains have been remarkably well-preserved in the permafrost of Siberia, allowing for easier study of their DNA. In this study, mitochondrial DNA (mtDNA) data sets collected from hair shafts will be used to complete a phylogenetic analysis. Samples from thirteen species will be used.
 
 ## Data Source
-I retrieved complete mitochondrial genome sequences for various Siberian woolly mammoth (Mammuthus primigenius) specimens from the NCBI GenBank database. Each genome was downloaded individually in FASTA format based on accession numbers provided in the published article. The sequences were then compiled into a single raw file and saved as wolly_mammoth_data_raw.fasta.
+I retrieved complete mitochondrial genome sequences for various Siberian woolly mammoth (Mammuthus primigenius) specimens from the NCBI GenBank database. Each genome was downloaded individually in FASTA format based on accession numbers provided in the published article. The sequences were then compiled into a single raw file and saved as woolly_mammoth_data_raw.fasta.
 
 ## Alignment Process
 To align the complete mitochondrial genomes, I used the multiple sequence alignment tool ClustalW in the terminal with the following command:
 ```
-clustalw -ALIGN -INFILE=wolly_mammoth_data_raw.fasta -OUTFILE=wolly_mammoth_aligned_final.fasta -OUTPUT=FASTA
+clustalw -ALIGN -INFILE=woolly_mammoth_data_raw.fasta -OUTFILE=woolly_mammoth_aligned_final.fasta -OUTPUT=FASTA
 ```
 
 Alignment Score: 2983150
-Output File: wolly_mammoth_aligned_final.fasta
+Output File: woolly_mammoth_aligned_final.fasta
 
 ClustalW
 - Description: ClustalW is a widely used progressive alignment algorithm that aligns biological sequences by first conducting pairwise alignments, constructing a guide tree based on sequence similarity, and then progressively aligning sequences according to the guide tree.
@@ -45,7 +45,7 @@ dist_combined <- dist.dna(combined_dnabin, model = "raw")
 tree_combined <- nj(dist_combined)
 plot(tree_combined, main = "Consensus Tree from All Sequences")
 ```
-Tree saved as "wolly_mammoth_NJ_tree.pdf"
+Tree saved as "woolly_mammoth_NJ_tree.pdf"
 
 - Assumptions: All input sequences are properly aligned and of mitochondrial origin. NJ method assumes equal evolutionary rates across lineages (no molecular clock). The raw distance model assumes equal mutation weights and does not correct for multiple substitutions.
 - Limitations: File size (215 KB) made direct computation slow; splitting into parts was necessary. Less accurate than model-based methods (e.g., Maximum Likelihood or Bayesian). If sequence quality or alignment errors are present, trees may reflect noise instead of true evolutionary relationships.
@@ -57,7 +57,7 @@ I constructed a phylogenetic tree of woolly mammoth specimens using RAxML, a too
 RAxML in Terminal:
 The sequence data was first modified to ensure unique sequence names and then processed using RAxML in the terminal. The following command was used to generate the tree:
 ```
-/usr/local/Cellar/raxml/8.2.12/bin/raxmlHPC-AVX -s /Users/graceswenson/Desktop/563/modified_wolly_mammoth_aligned_final_unique.fasta -n my_tree_run3 -m GTRGAMMA -p 12345
+/usr/local/Cellar/raxml/8.2.12/bin/raxmlHPC-AVX -s /Users/graceswenson/Desktop/563/modified_woolly_mammoth_aligned_final_unique.fasta -n my_tree_run3 -m GTRGAMMA -p 12345
 ```
 
 Code: R Visualization of Phylogenetic Tree
@@ -68,7 +68,7 @@ library(ape) tree <- read.tree("/Users/graceswenson/Desktop/563/RAxML_bestTree.m
 plot(tree)
 ```
 
-Tree saved as: "wolly_mammoth_raxml_tree.pdf"
+Tree saved as: "woolly_mammoth_raxml_tree.pdf"
 
 - Assumptions: The input sequences are aligned and of mitochondrial origin. The GTR+G model was selected to account for nucleotide substitutions and site-rate heterogeneity. RAxML uses maximum likelihood estimation, which provides accurate tree topologies for large datasets.
 - Limitations: The quality of the alignment is crucial. Any misalignment or sequence errors can affect the results. The RAxML analysis assumes no molecular clock, meaning it does not assume constant rates of evolution across all branches. Computationally intensive for large datasets, but the model offers a good balance of accuracy and computational feasibility.
@@ -78,10 +78,10 @@ Tree saved as: "wolly_mammoth_raxml_tree.pdf"
 In addition to maximum likelihood analysis, I chose to implement a Bayesian inference approach using MrBayes to construct a phylogenetic tree. Bayesian methods offer an alternative statistical framework for estimating phylogenies and allow for the incorporation of prior probabilities and model parameters in a probabilistic way. This method complements the results from RAxML-NG and provides a deeper understanding of the phylogenetic relationships among woolly mammoth mitochondrial genomes.
 
 Method:
-1. To prepare for MrBayes, I first converted my aligned FASTA file (wolly_mammoth_aligned_final.fasta) into the NEXUS format, which is the required format for MrBayes. I used the seqinr package in R to do this. 
+1. To prepare for MrBayes, I first converted my aligned FASTA file (woolly_mammoth_aligned_final.fasta) into the NEXUS format, which is the required format for MrBayes. I used the seqinr package in R to do this. 
 2. Once I had the .nex file ready, I used the following MrBayes commands in the terminal or within the MrBayes shell:
 mb
-execute wolly_mammoth_aligned_final.nex;
+execute woolly_mammoth_aligned_final.nex;
 lset nst=6 rates=gamma;
 prset statefreqpr=dirichlet(1,1,1,1);
 mcmc ngen=1000000 samplefreq=100 printfreq=100 diagnfreq=1000 nchains=4 temp=0.2;
