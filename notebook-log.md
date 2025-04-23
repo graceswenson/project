@@ -75,31 +75,49 @@ Tree saved as: "woolly_mammoth_raxml_tree.pdf"
 - Strengths: RAxML provides robust maximum likelihood trees, widely used for large-scale phylogenetic analysis. The GTR+G model accounts for rate heterogeneity, making it suitable for diverse evolutionary scenarios. Visualizing the tree in R helps assess the quality and topology of the tree and provides a straightforward interpretation.
 
 ## Bayesian Inference
+In this analysis, I used MrBayes to perform Bayesian inference of phylogeny for a set of mitochondrial genome sequences. This method utilizes Markov Chain Monte Carlo (MCMC) to estimate the most probable tree topologies and branch lengths, along with other model parameters. The analysis includes model selection, parameter settings, and interpretation of the resulting phylogenetic tree.
+
+Step 1: Convert your aligned FASTA file (wolly_mammoth_aligned_final.fasta) into a NEXUS format using the following R code
+```
+library(ape)
+fasta_file <- "wolly_mammoth_aligned_final.fasta"
+alignment <- read.dna(fasta_file, format = "fasta")
+nexus_file <- "wolly_mammoth_aligned_final.nex"
+write.nexus(alignment, file = nexus_file)
+```
+Step 2: The following command block was used in the MrBayes analysis. It includes settings for the model and MCMC parameters, as well as a specified outgroup.
+```
+begin mrbayes;
+    set autoclose=yes;
+    prset brlenspr=unconstrained:exp(10.0);
+    prset shapepr=exp(1.0);
+    prset tratiopr=beta(1.0,1.0);
+    prset statefreqpr=dirichlet(1.0,1.0,1.0,1.0);
+    lset nst=2 rates=gamma ngammacat=4;
+    mcmcp ngen=1000000 samplefreq=10 printfreq=100 nruns=1 nchains=3 savebrlens=yes;
+    outgroup EU153450.1;  # Change to a valid taxon if needed
+    mcmc;
+    sumt;
+end;
+```
+To run MrBayes, open the terminal and navigate to your project directory where the NEXUS file is located. Use the following command:
+```
+mb wolly_mammoth_aligned_final.nex
+```
+Step 3: Now that you have the con.tre file, you can visualize the tree using IcyTree. Open IcyTree then upload the con.tre file.
+
+Tree saved as: "woolly_mammoth_mrbayes.jpeg"
+
+Assumptions: Assumes that the evolutionary model you select (e.g., substitution rates, rate variation among sites) accurately reflects the underlying biological processes. Assumes sites in the sequence alignment evolve independently and identically according to the chosen model (though it can accommodate variation with models like Gamma). Assumes that the priors you specify for model parameters are appropriate—poor choices can lead to misleading results.
+Strengths: Uses Markov Chain Monte Carlo (MCMC) to sample from the posterior distribution, providing posterior probabilities for tree topology, branch lengths, and model parameters. Directly estimates uncertainty in tree topology, branch lengths, and model parameters. 
+Limitations: Poor or uninformed prior choices can significantly affect results. MCMC methods can be computationally intensive, especially for large datasets. Posterior probabilities are often higher than bootstrap values from ML, possibly overstating support.
 
 ## Software and Versions Used
 - R (v4.3.1): Installed from [CRAN](https://cran.r-project.org/)
 - ape package (v5.7-1): Installed via `install.packages("ape")`
 - ClustalW (v2.1): Installed via Homebrew with `brew install clustal-w`
 - RAxML (v8.2.12): Installed via Homebrew with `brew install brewsci/bio/raxml`
+- MrBayes(v3.2.7a): Installed via Homebrew with `brew tap brewsci/bio` and `brew install mrbayes open-mpi`
 - macOS Ventura 13.4 (M1 Chip)
 
-## Bayesian Inference
-In addition to maximum likelihood analysis, I chose to implement a Bayesian inference approach using MrBayes to construct a phylogenetic tree. Bayesian methods offer an alternative statistical framework for estimating phylogenies and allow for the incorporation of prior probabilities and model parameters in a probabilistic way. This method complements the results from RAxML-NG and provides a deeper understanding of the phylogenetic relationships among woolly mammoth mitochondrial genomes.
 
-Method:
-1. To prepare for MrBayes, I first converted my aligned FASTA file (woolly_mammoth_aligned_final.fasta) into the NEXUS format, which is the required format for MrBayes. I used the seqinr package in R to do this. 
-2. Once I had the .nex file ready, I used the following MrBayes commands in the terminal or within the MrBayes shell:
-mb
-execute woolly_mammoth_aligned_final.nex;
-lset nst=6 rates=gamma;
-prset statefreqpr=dirichlet(1,1,1,1);
-mcmc ngen=1000000 samplefreq=100 printfreq=100 diagnfreq=1000 nchains=4 temp=0.2;
-sump burnin=2500;
-sumt burnin=2500;
-This code runs the MCMC algorithm for 1 million generations, sampling every 100 generations. I then discarded the first 2,500 trees as burn-in and summarized the remaining trees to construct a consensus phylogeny with posterior probabilities.
-
-Assumptions: Bayesian inference requires setting priors for evolutionary parameters. I used non-informative (flat) priors such as a uniform Dirichlet distribution for state frequencies, assuming no prior knowledge about base frequency distribution.  I assumed the MCMC chains converged and mixed well based on log-likelihood plots and diagnostic statistics like the potential scale reduction factor (PSRF) and effective sample size (ESS). I assumed the GTR+G model (nst=6, rates=gamma) was appropriate for my mitochondrial sequence data, as this is widely accepted for DNA sequence evolution.
-
-Strengths: MrBayes provides posterior probabilities for each node, which can be more interpretable than bootstrap values because they directly represent the probability of clades given the model and data. MrBayes allows for complex models of evolution, including mixture models and codon-based models, which could be useful in future studies with more complex datasets.
-
-Limitations: MrBayes is computationally intensive, especially with large datasets or when running very long chains. For this analysis, I needed to allow significant time for convergence. Choosing an appropriate burn-in is crucial. If the chains have not converged, then the posterior estimates may be biased. I visually inspected the likelihood trace and checked convergence diagnostics but this step requires careful interpretation. As with other methods, the results can be sensitive to the chosen substitution model. While I used GTR+G, different models may yield different topologies.
