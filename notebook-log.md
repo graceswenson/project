@@ -4,7 +4,7 @@
 - Link to Article: https://www.pnas.org/doi/10.1073/pnas.0802315105#supplementary-materials
 
 ## Species Information
-The Siberian woolly mammoth is an extinct species of elephant that roamed parts of the Northern Hemisphere during the Pleistocene epoch. Their remains have been remarkably well-preserved in the permafrost of Siberia, allowing for easier study of their DNA. In this study, mitochondrial DNA (mtDNA) data sets collected from hair shafts will be used to complete a phylogenetic analysis. Samples from thirteen species will be used.
+The Siberian woolly mammoth is an extinct species of elephant that roamed parts of the Northern Hemisphere during the Pleistocene epoch. Their remains have been remarkably well-preserved in the permafrost of Siberia, allowing for easier study of their DNA. In this study, mitochondrial DNA (mtDNA) data sets collected from hair shafts will be used to complete a phylogenetic analysis. Samples from thirteen woolly mammoth specimens will be used
 
 ## Data Source
 I retrieved complete mitochondrial genome sequences for various Siberian woolly mammoth (Mammuthus primigenius) specimens from the NCBI GenBank database. Each genome was downloaded individually in FASTA format based on accession numbers provided in the published article. The sequences were then compiled into a single raw file and saved as woolly_mammoth_data_raw.fasta.
@@ -15,8 +15,8 @@ To align the complete mitochondrial genomes, I used the multiple sequence alignm
 clustalw -ALIGN -INFILE=woolly_mammoth_data_raw.fasta -OUTFILE=woolly_mammoth_aligned_final.fasta -OUTPUT=FASTA
 ```
 
-Alignment Score: 2983150
-Output File: woolly_mammoth_aligned_final.fasta
+- Alignment Score: 2983150 --> The high alignment score reflects the extensive sequence similarity expected among conspecific mitochondrial genomes.
+- Output File: woolly_mammoth_aligned_final.fasta
 
 ClustalW
 - Description: ClustalW is a widely used progressive alignment algorithm that aligns biological sequences by first conducting pairwise alignments, constructing a guide tree based on sequence similarity, and then progressively aligning sequences according to the guide tree.
@@ -26,7 +26,7 @@ ClustalW
 
 ## Phylogenetic Tree Construction
 ### Method 1: Distance Based Tree Using R
-I constructed a phylogenetic tree of woolly mammoth specimens using Neighbor-Joining (NJ) methods in R. This approach involved maximum likelihood estimation using the GTR+G model, which accounts for nucleotide substitution and gamma-distributed rate heterogeneity across sites. Due to file size and computational limitations, the dataset was split into two parts for analysis.
+I constructed a phylogenetic tree of woolly mammoth specimens using Neighbor-Joining (NJ) methods in R. This approach involved computing pairwise distances under the raw model and constructing a Neighbor-Joining tree.. Due to file size and computational limitations, the dataset was split into two parts for analysis.
 
 Code: 
 ```r
