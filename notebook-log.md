@@ -108,11 +108,30 @@ Step 3: Now that you have the con.tre file, you can visualize the tree using Icy
 
 Tree saved as: "woolly_mammoth_bayesian.jpeg"
 
-Assumptions: Assumes that the evolutionary model you select (e.g., substitution rates, rate variation among sites) accurately reflects the underlying biological processes. Assumes sites in the sequence alignment evolve independently and identically according to the chosen model (though it can accommodate variation with models like Gamma). Assumes that the priors you specify for model parameters are appropriate—poor choices can lead to misleading results.
-Strengths: Uses Markov Chain Monte Carlo (MCMC) to sample from the posterior distribution, providing posterior probabilities for tree topology, branch lengths, and model parameters. Directly estimates uncertainty in tree topology, branch lengths, and model parameters. 
-Limitations: Poor or uninformed prior choices can significantly affect results. MCMC methods can be computationally intensive, especially for large datasets. Posterior probabilities are often higher than bootstrap values from ML, possibly overstating support.
+- Assumptions: Assumes that the evolutionary model you select (e.g., substitution rates, rate variation among sites) accurately reflects the underlying biological processes. Assumes sites in the sequence alignment evolve independently and identically according to the chosen model (though it can accommodate variation with models like Gamma). Assumes that the priors you specify for model parameters are appropriate—poor choices can lead to misleading results.
+- Strengths: Uses Markov Chain Monte Carlo (MCMC) to sample from the posterior distribution, providing posterior probabilities for tree topology, branch lengths, and model parameters. Directly estimates uncertainty in tree topology, branch lengths, and model parameters. 
+- Limitations: Poor or uninformed prior choices can significantly affect results. MCMC methods can be computationally intensive, especially for large datasets. Posterior probabilities are often higher than bootstrap values from ML, possibly overstating support.
 
 ## Coalescent method: BUCKy
+BUCKy (Bayesian Untangling of Concordance Knots) is a phylogenetic method designed to estimate species trees by combining multiple independent gene trees under a coalescent framework.
+Instead of assuming that all gene trees are identical, BUCKy models the possibility that different genes may have different histories due to incomplete lineage sorting (ILS). It uses Bayesian methods to cluster concordant gene trees and produces a primary concordance tree, reflecting the dominant evolutionary relationships among taxa.
+
+Note: My project uses only mitochondrial DNA, which is inherited as a single linked unit. Therefore, BUCKy was not directly applicable to my data. To demonstrate familiarity with the program, I ran BUCKy using the provided "yeast" toy dataset. This BUCKy analysis was conducted as a demonstration exercise only and is not included in my final project results.
+
+Program setup:
+1. BUCKy version 1.4.4 was downloaded from: https://pages.stat.wisc.edu/~ane/bucky/downloads.html
+2. Path: /Users/graceswenson/Desktop/bucky-1.4.4/data/yeast
+3. Commands from the slides at this link were follwed: https://pages.stat.wisc.edu/~larget/AustinWorkshop/tutorial.pdf
+
+```
+inside yeast folder:
+mbsum -n 501 -o y000.in y000.run*.t
+./bucky -a 1 -k 4 -n 1000000 -c 4 -s1 23546 -s2 4564 -o yeast y*/*.in
+```
+
+- Assumptions: The input gene trees must come from different, independently evolving regions of the genome (e.g., separate nuclear genes). Each gene tree represents a non-recombining, independently evolving unit. Loci are assumed to be unlinked and to evolve independently.
+- Strengths: BUCKy does not force all genes into a single consensus tree but acknowledges that different genes can tell different evolutionary stories. Even when gene trees differ substantially, BUCKy can still estimate a well-supported species tree by focusing on the dominant patterns. BUCKy outputs concordance factors (CFs), providing a statistical measure of support for each clade, beyond simple bootstrap percentages. Especially useful when incomplete lineage sorting is expected (e.g., rapid radiations, closely related species).
+- Limitations: Projects based on a single genome region (like the mitochondrial genome) are not suitable because all genes are physically linked and inherited together. If the gene trees are highly uncertain or badly estimated, BUCKy's species tree will also be unreliable. For large numbers of genes or taxa, BUCKy's MCMC sampling can be slow and require high memory and CPU resources.
 
 
 ## Software and Versions Used
@@ -121,6 +140,7 @@ Limitations: Poor or uninformed prior choices can significantly affect results. 
 - ClustalW (v2.1): Installed via Homebrew with `brew install clustal-w`
 - RAxML (v8.2.12): Installed via Homebrew with `brew install brewsci/bio/raxml`
 - MrBayes(v3.2.7a): Installed via Homebrew with `brew tap brewsci/bio` and `brew install mrbayes open-mpi`
+- BUCKy version 1.4.4: https://pages.stat.wisc.edu/~ane/bucky/downloads.html
 - macOS Ventura 13.4 (M1 Chip)
 
 
