@@ -77,12 +77,12 @@ Tree saved as: "woolly_mammoth_raxml_tree.pdf"
 ## Bayesian Inference
 In this analysis, I used MrBayes to perform Bayesian inference of phylogeny for a set of mitochondrial genome sequences. This method utilizes Markov Chain Monte Carlo (MCMC) to estimate the most probable tree topologies and branch lengths, along with other model parameters. The analysis includes model selection, parameter settings, and interpretation of the resulting phylogenetic tree.
 
-Step 1: Convert your aligned FASTA file (wolly_mammoth_aligned_final.fasta) into a NEXUS format using the following R code
+Step 1: Convert your aligned FASTA file (woolly_mammoth_aligned_final.fasta) into a NEXUS format using the following R code
 ```
 library(ape)
-fasta_file <- "wolly_mammoth_aligned_final.fasta"
+fasta_file <- "woolly_mammoth_aligned_final.fasta"
 alignment <- read.dna(fasta_file, format = "fasta")
-nexus_file <- "wolly_mammoth_aligned_final.nex"
+nexus_file <- "woolly_mammoth_aligned_final.nex"
 write.nexus(alignment, file = nexus_file)
 ```
 Step 2: The following command block was used in the MrBayes analysis. It includes settings for the model and MCMC parameters, as well as a specified outgroup.
@@ -102,7 +102,7 @@ end;
 ```
 To run MrBayes, open the terminal and navigate to your project directory where the NEXUS file is located. Use the following command:
 ```
-mb wolly_mammoth_aligned_final.nex
+mb woolly_mammoth_aligned_final.nex
 ```
 Step 3: Now that you have the con.tre file, you can visualize the tree using IcyTree. Open IcyTree then upload the con.tre file.
 
