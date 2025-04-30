@@ -26,7 +26,7 @@ ClustalW
 
 ## Phylogenetic Tree Construction
 ### Method 1: Distance Based Tree Using R
-I constructed a phylogenetic tree of woolly mammoth specimens using Neighbor-Joining (NJ) methods in R. This approach involved computing pairwise distances under the raw model and constructing a Neighbor-Joining tree.. Due to file size and computational limitations, the dataset was split into two parts for analysis.
+I constructed a phylogenetic tree of woolly mammoth specimens using Neighbor-Joining (NJ) methods in R. This approach involved computing pairwise distances under the raw model and constructing a Neighbor-Joining tree. Due to file size and computational limitations, the dataset was split into two parts for analysis.
 
 Code: 
 ```r
