@@ -1,7 +1,10 @@
-# Siberian Woolly Mammoth Phylogenetic Analysis
+# Phylogenetic Analysis of Siberian Woolly Mammoths Using Mitochondrial Genomes
 - Name of Article: Intraspecific phylogenetic analysis of Siberian woolly mammoths using complete mitochondrial genomes
 - DOI:  https://doi.org/10.1073/pnas.0802315105
 - Link to Article: https://www.pnas.org/doi/10.1073/pnas.0802315105#supplementary-materials
+
+## Project Summary
+This project aims to explore the intraspecific phylogeny of the extinct Siberian woolly mammoth (Mammuthus primigenius) using complete mitochondrial genomes. By applying Neighbor-Joining, Maximum Likelihood, and Bayesian inference methods, this study reconstructs evolutionary relationships among 13 individual specimens to assess potential genetic structuring or divergence.
 
 ## Species Information
 The Siberian woolly mammoth is an extinct species of elephant that roamed parts of the Northern Hemisphere during the Pleistocene epoch. Their remains have been remarkably well-preserved in the permafrost of Siberia, allowing for easier study of their DNA. In this study, mitochondrial DNA (mtDNA) data sets collected from hair shafts will be used to complete a phylogenetic analysis. Samples from thirteen woolly mammoth specimens will be used
@@ -15,7 +18,7 @@ To align the complete mitochondrial genomes, I used the multiple sequence alignm
 clustalw -ALIGN -INFILE=woolly_mammoth_data_raw.fasta -OUTFILE=woolly_mammoth_aligned_final.fasta -OUTPUT=FASTA
 ```
 
-- Alignment Score: 2983150 --> The high alignment score reflects the extensive sequence similarity expected among conspecific mitochondrial genomes.
+- The output alignment was visually inspected and showed high sequence similarity, as expected for mitochondrial genomes of conspecific specimens.
 - Output File: woolly_mammoth_aligned_final.fasta
 
 ClustalW
@@ -116,7 +119,7 @@ Tree saved as: "woolly_mammoth_bayesian.jpeg"
 BUCKy (Bayesian Untangling of Concordance Knots) is a phylogenetic method designed to estimate species trees by combining multiple independent gene trees under a coalescent framework.
 Instead of assuming that all gene trees are identical, BUCKy models the possibility that different genes may have different histories due to incomplete lineage sorting (ILS). It uses Bayesian methods to cluster concordant gene trees and produces a primary concordance tree, reflecting the dominant evolutionary relationships among taxa.
 
-Note: My project uses only mitochondrial DNA, which is inherited as a single linked unit. Therefore, BUCKy was not directly applicable to my data. To demonstrate familiarity with the program, I ran BUCKy using the provided "yeast" toy dataset. This BUCKy analysis was conducted as a demonstration exercise only and is not included in my final project results.
+Note: My project uses only mitochondrial DNA, which is inherited as a single linked unit. Therefore, BUCKy was not directly applicable to my data. Because mitochondrial DNA represents a single locus, BUCKy was used solely for demonstration purposes and not included in the final species tree inference. To demonstrate familiarity with the program, I ran BUCKy using the provided "yeast" toy dataset. This BUCKy analysis was conducted as a demonstration exercise only and is not included in my final project results. 
 
 Program setup:
 1. BUCKy version 1.4.4 was downloaded from: https://pages.stat.wisc.edu/~ane/bucky/downloads.html
